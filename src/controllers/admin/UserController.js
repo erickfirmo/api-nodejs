@@ -17,6 +17,20 @@ module.exports = {
 
         return res.json(json.result);
     },
+    find: async (req, res) => {
+
+        let json = {error: '', result: {}};
+
+        let id = req.params.id;
+
+        let user = await UserService.find(id);
+
+        if(user) {
+            json.result = user;
+        }
+
+        return res.json(json);
+    },
     store : (req, res) => {
         return res.json(req);
     },
