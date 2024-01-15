@@ -1,13 +1,18 @@
+require('dotenv').config({path:'.env'});
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
 const filmes = require('./src/data/filmes.json')
 
-const siteRouter = require('./routes/site.js');
-const adminRouter = require('./routes/admin.js');
+const siteRouter = require('./src/routes/site.js');
+const adminRouter = require('./src/routes/admin.js');
 
-app.use('/', siteRouter);
-app.use('/admin', adminRouter);
+app.use('/api/site', siteRouter);
+app.use('/api/admin', adminRouter);
+app.use(cors());
+app.use(bodyParser.urlencoded({extends: false}));
 
 /*app.get('/', (req, res) => {
     return res.json({message: 'oi'});
@@ -22,6 +27,6 @@ app.get('/filmes', (req, res) => {
 });
 */
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Servidor ativo');
 });
