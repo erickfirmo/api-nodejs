@@ -46,5 +46,17 @@ module.exports = {
                 }
             );
         });
+    },
+    update: (params) => {
+        return new Promise((accept, reject) => {
+            db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?',
+                [params.name, params.email, params.password, params.id],
+                (error, results) => {
+                    if(error) { reject(error); return; }
+                    accept(results.insertId);
+
+                }
+            );
+        });
     }
 }

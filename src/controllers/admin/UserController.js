@@ -50,4 +50,24 @@ module.exports = {
 
         return res.json(json);
     },
+    update : async (req, res) => {
+
+        let json = {error: '', result: {}};
+        
+        let id = req.params.id;
+        let name = req.body.name;
+        let email = req.body.email;
+        let password = req.body.password;
+
+        if(name && email && password) {
+            let userId = await UserService.update({id, name, email, password});
+            json.result = {
+                id: userId,
+                name,
+                email,
+            }
+        }
+
+        return res.json(json);
+    }
 }
