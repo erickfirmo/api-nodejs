@@ -58,5 +58,17 @@ module.exports = {
                 }
             );
         });
+    },
+    delete: (id) => {
+        return new Promise((accept, reject) => {
+            db.query('DELETE FROM users WHERE id = ?',
+                [id],
+                (error, results) => {
+                    if(error) { reject(error); return; }
+                    accept(results.insertId);
+
+                }
+            );
+        });
     }
 }

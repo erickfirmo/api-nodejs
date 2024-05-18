@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const UserService = require('../../services/UserService');
+const { json } = require('express');
 
 module.exports = {
     get : async (req, res) => {
@@ -69,5 +70,19 @@ module.exports = {
         }
 
         return res.json(json);
+    },
+    destroy : async (req, res) => {
+        let json = {error: '', result: {}};
+
+        let id = req.params.id
+
+        await UserService.delete(id)
+
+        json.result = {
+            id,
+            message: "Usuário removido com sucesso!"
+        }
+
+        return res.json(json);  
     }
 }
