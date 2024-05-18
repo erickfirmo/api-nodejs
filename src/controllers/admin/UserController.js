@@ -31,7 +31,23 @@ module.exports = {
 
         return res.json(json);
     },
-    store : (req, res) => {
-        return res.json(req);
+    store : async (req, res) => {
+
+        let json = {error: '', result: {}};
+        
+        let name = req.body.name;
+        let email = req.body.email;
+        let password = req.body.password;
+
+        if(name && email && password) {
+            let userId = await UserService.store({name, email, password});
+            json.result = {
+                id: userId,
+                name,
+                email,
+            }
+        }
+
+        return res.json(json);
     },
 }

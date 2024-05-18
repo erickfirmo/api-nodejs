@@ -9,9 +9,9 @@ module.exports = {
             });
         });
     },
-    find: (id) => {
+    findBy: (column, value) => {
         return new Promise((accept, reject) => {
-            db.query('SELECT * FROM users WHERE id = ?', [id], (error, results) => {
+            db.query('SELECT * FROM users WHERE ? = ?', [column, value], (error, results) => {
                 if(error) { reject(error);  return; }
 
                 if(results.length > 0) {
@@ -20,6 +20,31 @@ module.exports = {
                     accept(false);
                 }
             });
+        });
+    },
+    find: (id) => {
+        return new Promise((accept, reject) => {
+            db.query('SELECT * FROM users WHERE id = ? ', [id], (error, results) => {
+                if(error) { reject(error);  return; }
+
+                if(results.length > 0) {
+                    accept(results[0])
+                } else {
+                    accept(false);
+                }
+            });
+        });
+    },
+    store: (params) => {
+        return new Promise((accept, reject) => {
+            db.query('INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+                [params.name, params.email, params.password],
+                (error, results) => {
+                    if(error) { reject(error); return; }
+                    accept(results.insertId);
+
+                }
+            );
         });
     }
 }
